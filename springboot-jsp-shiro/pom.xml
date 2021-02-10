@@ -50,7 +50,6 @@
         </dependency>
 
 
-
         <!--支持jsp 的解析-->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
@@ -83,6 +82,27 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+
+        <!--shiro使用 ehcache 缓存-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+
+        <!-- redis 整合spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${boot.version}</version>
+            <!--spring boot 2.0以后默认采用lettuce作客户端-->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

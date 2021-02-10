@@ -17,10 +17,15 @@
         <java.version>1.8</java.version>
         <boot.version>2.2.7.RELEASE</boot.version>
         <lombok.version>1.18.6</lombok.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.5.3</shiro.version>
         <mybatis.version>2.1.2</mybatis.version>
         <mysql.version>5.1.38</mysql.version>
         <druid.version>1.1.19</druid.version>
+        <ehcache.version>1.5.3</ehcache.version>
+        <!--默认采用lettuce -->
+        <redis.version>2.2.7.RELEASE</redis.version>
+        <!--直接引用jedis-->
+        <jedis.version>3.1.0</jedis.version>
         <!--surefire plugin方式跳过maven test,但允许junit 等同$ mvn package -DskipTests-->
         <skipTests>true</skipTests>
         <!--maven方式跳过maven test, 等同$ mvn package -Dmaven.test.skip=true-->
@@ -63,7 +68,6 @@
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring-boot-starter</artifactId>
-                <version>${shiro.version}</version>
             </dependency>
 
             <!--mybatis的依赖-->
@@ -84,6 +88,23 @@
                 <artifactId>druid</artifactId>
             </dependency>
 
+            <!--shiro使用 ehcache 缓存-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-ehcache</artifactId>
+            </dependency>
+
+            <!-- redis 整合spring boot -->
+            <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            </dependency>
+
+            <!--引入jedis-->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -95,10 +116,17 @@
             <scope>provided</scope>
             <version>${lombok.version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+<!--            <scope>test</scope>-->
+        </dependency>
     </dependencies>
 
     <modules>
         <module>springboot-jsp-shiro</module>
+        <module>jedisdemo</module>
+        <module>springboot-redis</module>
     </modules>
 
     <build>

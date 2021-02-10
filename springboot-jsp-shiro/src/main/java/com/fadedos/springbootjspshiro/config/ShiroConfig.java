@@ -2,12 +2,14 @@ package com.fadedos.springbootjspshiro.config;
 
 import com.fadedos.springbootjspshiro.shiro.realms.CustomerRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.LinkedHashMap;
 
 /**
@@ -42,7 +44,7 @@ public class ShiroConfig {
 
     //2.创建安全管理器 SecurityManager
     @Bean
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getRealm") Realm realm){
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("getRealm") Realm realm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
 
         //给安全管理器设置realm
@@ -52,7 +54,7 @@ public class ShiroConfig {
 
     //3.创建自定义realm
     @Bean
-    public Realm getRealm(){
+    public Realm getRealm() {
         //修改凭证校验匹配器
         CustomerRealm customerRealm = new CustomerRealm();
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -60,6 +62,16 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         hashedCredentialsMatcher.setHashIterations(1024);
         customerRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+
+        //开启缓存
+        customerRealm.setCacheManager(new EhCacheManager());
+        customerRealm.setCachingEnabled(true);
+        //认证缓存
+        customerRealm.setAuthenticationCachingEnabled(true);
+        customerRealm.setAuthenticationCacheName("authenticationCache");
+        //开启授权缓存
+        customerRealm.setAuthorizationCachingEnabled(true);
+        customerRealm.setAuthorizationCacheName("authorizationCache");
         return customerRealm;
     }
 }

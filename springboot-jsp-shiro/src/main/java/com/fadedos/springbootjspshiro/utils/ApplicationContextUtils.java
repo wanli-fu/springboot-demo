@@ -3,12 +3,14 @@ package com.fadedos.springbootjspshiro.utils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @Description:TODO
  * @author: pengcheng
  * @date: 2020/12/24
  */
+@Configuration
 public class ApplicationContextUtils  implements ApplicationContextAware {
 
     private static ApplicationContext appContext = null;
