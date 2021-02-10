@@ -1,0 +1,49 @@
+server:
+  port: 8989
+
+# redis
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 5000   # 连接超时时间（毫秒）
+
+    # 若配置哨兵
+    sentinel:
+      # master书写是使用哨兵监听的那个名称
+      master: myhost
+      # 连接的不再是一个具体的主机,书写的是多个哨兵的节点,多个哨兵用逗号隔开(开启远程连接sentinel.)
+      nodes: 192.168.0.1:26379
+
+    #使用集群
+   # cluster:
+      # 写上集群中所有的节点,避免只写一个,有一个节点宕机,程序找不到
+     # nodes: 192.168.0.1:7000,192.168.0.2:7001
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+# 数据库
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shiro?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: password
+# MyBatis
+mybatis:
+  # 搜索指定包别名 默认不支持通配符 此处优化自定义MyBatisConfig配置
+  type-aliases-package: com.fadedos.*.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  # 加载全局的配置文件 :骆驼命名/自动返回主键/log/cache等设置 MyBatisConfig中提取
+  config-location: classpath:mybatis/mybatis-config.xml
+
+# 日志级别
+logging:
+  level:
+    com.fadedos: debug
+    org.springframework: warn
